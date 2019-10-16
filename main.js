@@ -183,23 +183,11 @@ function run(options) {
         }
 
         assert.object(res, 'res');
-        // assert.object(res.ring, 'res.ring');
-        assert.arrayOfString(res.clientList, 'res.clientList');
-
-        // LOG.info('Serializing ring!');
-        // res.ring.chash_.serialize(function (err, strring) {
-        //     if (err) {
-        //         throw new verror.VError(err,
-        //             'unable to serialize hash ring');
-        //     }
-        //     LOG.info('Serialized ring: ' + strring);
-        //     return;
-        // });
+        assert.object(res.dataDirector, 'res.dataDirector');
 
         app.createStatusServer({
             log: LOG.child({ component: 'statusServer' }),
             dataDirector: res.dataDirector,
-            clientList: res.clientList,
             indexShards: opts.ringCfg.indexShards,
             port: opts.statusPort
         }, function (err2) {
