@@ -14,12 +14,6 @@ This repository is part of the Joyent Manta project.  For contribution
 guidelines, issues, and general documentation, visit the main
 [Manta](http://github.com/joyent/manta) project page.
 
-electric-boray is a Node-based service that provides data placement
-services. This includes services such as locating the correct physical storage
-location given the metadata for an object or providing the virtual nodes that
-belong to a physical storage node.
-
-
 # Building and running
 
 To run your own electric-boray from a copy of this repository, you'll want:
@@ -43,7 +37,7 @@ and run electric-boray with something like this:
         2>&1 | bunyan
 
 For example, if the configuration file and hash ring were copied to your
-electric-moray workspace, you'd use:
+electric-boray workspace, you'd use:
 
     $ node ./main.js -f ./config.json -r ./leveldb-2021 -p 2020 2>&1 | bunyan
 
