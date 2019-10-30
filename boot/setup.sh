@@ -203,6 +203,6 @@ manta_setup_electric_boray
 
 manta_buckets_setup_common_log_rotation "electric-boray"
 
-manta_common_setup_end
+manta_buckets_common_setup_end
 
 exit 0
