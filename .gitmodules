@@ -7,7 +7,6 @@
 [submodule "deps/manta-scripts"]
 	path = deps/manta-scripts
 	url = https://github.com/joyent/manta-scripts.git
-	branch = MANTA-1936
 [submodule "deps/eng"]
 	path = deps/eng
 	url = https://github.com/joyent/eng.git

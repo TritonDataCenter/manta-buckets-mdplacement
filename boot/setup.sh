@@ -191,7 +191,7 @@ manta_common_presetup
 echo "Adding local manifest directories"
 manta_add_manifest_dir "/opt/smartdc/electric-boray"
 
-manta_buckets_common_setup "electric-boray"
+manta_common2_setup "electric-boray"
 
 manta_setup_determine_instances
 
@@ -201,8 +201,8 @@ manta_setup_electric_boray_hash_ring
 echo "Setting up e-boray"
 manta_setup_electric_boray
 
-manta_buckets_setup_common_log_rotation "electric-boray"
+manta_common2_setup_log_rotation "electric-boray"
 
-manta_buckets_common_setup_end
+manta_common2_setup_end
 
 exit 0
