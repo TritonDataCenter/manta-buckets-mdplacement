@@ -5,11 +5,11 @@
  */
 
 /*
- * Copyright (c) 2017, Joyent, Inc.
+ * Copyright 2019 Joyent, Inc.
  */
 
 var clone = require('clone');
-var uuid = require('node-uuid');
+var uuidv4 = require('uuid/v4');
 var vasync = require('vasync');
 
 if (require.cache[__dirname + '/helper.js'])
@@ -124,7 +124,7 @@ after(function (cb) {
 
 test('get object 404', function (t) {
     var c = this.client;
-    c.getObject(this.bucket, uuid.v4().substr(0, 7), function (err) {
+    c.getObject(this.bucket, uuidv4().substr(0, 7), function (err) {
         t.ok(err);
         t.equal(err.name, 'ObjectNotFoundError');
         t.ok(err.message);
@@ -135,7 +135,7 @@ test('get object 404', function (t) {
 
 test('del object 404', function (t) {
     var c = this.client;
-    c.delObject(this.bucket, uuid.v4().substr(0, 7), function (err) {
+    c.delObject(this.bucket, uuidv4().substr(0, 7), function (err) {
         t.ok(err);
         t.equal(err.name, 'ObjectNotFoundError');
         t.ok(err.message);
@@ -147,7 +147,7 @@ test('del object 404', function (t) {
 test('CRUD object', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -203,7 +203,7 @@ test('CRUD object', function (t) {
 test('get object (cached)', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -253,8 +253,8 @@ test('get object (cached)', function (t) {
 //test('CRUD objects unique indexes', function (t) {
     //var b = this.bucket;
     //var c = this.client;
-    //var k = uuid.v4();
-    //var k2 = uuid.v4();
+    //var k = uuidv4();
+    //var k2 = uuidv4();
     //var v = {
         //str_u: 'hi'
     //};
@@ -289,7 +289,7 @@ test('get object (cached)', function (t) {
 test('put object w/etag ok', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -337,7 +337,7 @@ test('put object w/etag ok', function (t) {
 test('del object w/etag ok', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -371,7 +371,7 @@ test('del object w/etag ok', function (t) {
 test('put object w/etag conflict', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -399,7 +399,7 @@ test('put object w/etag conflict', function (t) {
 test('del object w/etag conflict', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -436,7 +436,7 @@ test('del object w/etag conflict', function (t) {
 test('MANTA-980 - null etag support', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -503,7 +503,7 @@ test('MANTA-980 - null etag support', function (t) {
 test('find (like marlin)', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4();
+    var k = uuidv4();
     var v = {
         str: 'hello',
         str_2: 'world'
@@ -559,7 +559,7 @@ test('find (like marlin)', function (t) {
 test('find _mtime', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4();
+    var k = uuidv4();
     var now = Date.now();
     var v = {
         str: 'hello',
@@ -617,7 +617,7 @@ test('find _mtime', function (t) {
 test('find MANTA-156', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4();
+    var k = uuidv4();
     var v = {
         num: 0,
         num_u: 1
@@ -674,8 +674,8 @@ test('find MANTA-156', function (t) {
 test('find with hashkey', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var hashkey = uuid.v4();
-    var k = hashkey + '/' + uuid.v4();
+    var hashkey = uuidv4();
+    var k = hashkey + '/' + uuidv4();
     var v = {
         num: 0,
         num_u: 1
@@ -718,7 +718,7 @@ test('find with hashkey', function (t) {
 test('non-indexed AND searches (MANTA-317)', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4();
+    var k = uuidv4();
     var v = {
         str: 'hello',
         cow: 'moo'
@@ -775,7 +775,7 @@ test('non-indexed AND searches (MANTA-317)', function (t) {
 test('_txn_snap on update', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -825,7 +825,7 @@ test('_txn_snap on update', function (t) {
 test('find _txn_snap', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4();
+    var k = uuidv4();
     var v = {
         str: 'hello',
         str_2: 'world'
@@ -884,7 +884,7 @@ test('find _txn_snap', function (t) {
 test('trackModification (MANTA-269)', function (t) {
     var b = this.bucket;
     var c = this.client;
-    var k = uuid.v4() + '/' + uuid.v4();
+    var k = uuidv4() + '/' + uuidv4();
     var v = {
         str: 'hi'
     };
@@ -937,12 +937,12 @@ test('unsupported batch and update operations', function (t) {
     for (var i = 0; i < 10; i++) {
         requests.push({
             bucket: self.bucket,
-            key: uuid.v4().substr(0, 7),
+            key: uuidv4().substr(0, 7),
             value: {
                 num: 20,
                 num_u: i,
                 str: 'foo',
-                str_u: uuid.v4().substr(0, 7)
+                str_u: uuidv4().substr(0, 7)
             }
         });
     }
