@@ -15,7 +15,7 @@
         "bunyan": "0.22.1",
         "clone": "0.1.9",
         "dtrace-provider": "0.8.8",
-        "fash": "git+https://github.com/joyent/node-boray.git#MANTA-4720",
+        "fash": "git+https://github.com/joyent/node-fash.git#MANTA-4720",
         "fast": "2.7.0",
         "jsprim": "2.0.0",
         "kang": "1.2.0",
