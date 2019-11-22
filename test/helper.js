@@ -5,11 +5,10 @@
  */
 
 /*
- * Copyright (c) 2014, Joyent, Inc.
+ * Copyright 2019 Joyent, Inc.
  */
 
 var bunyan = require('bunyan');
-var deepEqual = require('deep-equal');
 var fast = require('fast');
 var moray = require('moray'); // client
 var net = require('net');

@@ -27,7 +27,7 @@ BOOTSTRAP_MANIFESTS =	sapi_manifests/registrar/template
 
 NODEUNIT_TESTS =	$(notdir $(wildcard test/*.test.js))
 
-NODE_PREBUILT_TAG       = zone
+NODE_PREBUILT_TAG       = zone64
 NODE_PREBUILT_VERSION	:= v6.17.0
 # sdc-minimal-multiarch-lts 15.4.1
 NODE_PREBUILT_IMAGE     = 18b094b0-eb01-11e5-80c1-175dac7ddf02
