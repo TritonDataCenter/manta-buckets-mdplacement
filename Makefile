@@ -55,8 +55,8 @@ ROOT :=			$(shell pwd)
 RELSTAGEDIR :=		/tmp/$(NAME)-$(STAMP)
 
 BASE_IMAGE_UUID = 04a48d7d-6bb5-4e83-8c3b-e60a99e0f48f
-BUILDIMAGE_NAME = manta-electric-boray
-BUILDIMAGE_DESC	= Manta boray proxy
+BUILDIMAGE_NAME = mantav2-electric-boray
+BUILDIMAGE_DESC	= Manta buckets metadata placement API
 BUILDIMAGE_PKGSRC = haproxy-1.6.2
 AGENTS		= amon config registrar
 
