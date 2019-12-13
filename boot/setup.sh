@@ -146,19 +146,6 @@ function manta_setup_buckets_mdplacement {
     #To preserve whitespace in echo commands...
     IFS='%'
 
-    #haproxy
-    for port in "${ports[@]}"; do
-        hainstances="$hainstances        server buckets-mdplacement-$port 127.0.0.1:$port check inter 10s slowstart 10s error-limit 3 on-error mark-down\n"
-    done
-
-    sed -e "s#@@BUCKETS_MDPLACEMENT_INSTANCES@@#$hainstances#g" \
-        $SVC_ROOT/etc/haproxy.cfg.in > $SVC_ROOT/etc/haproxy.cfg || \
-        fatal "could not process $src to $dest"
-
-    svccfg import $SVC_ROOT/smf/manifests/haproxy.xml || \
-        fatal "unable to import haproxy"
-    svcadm enable "manta/haproxy" || fatal "unable to start haproxy"
-
     #buckets-mdplacement instances
     local buckets_mdplacement_xml_in=$SVC_ROOT/smf/manifests/buckets-mdplacement.xml.in
     for (( i=1; i<=$BUCKETS_MDPLACEMENT_INSTANCES; i++ )); do
