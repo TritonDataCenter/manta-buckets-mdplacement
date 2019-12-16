@@ -5,7 +5,7 @@
     "service": {
       "type": "service",
       "service": {
-        "srvce": "_boray",
+        "srvce": "_buckets-mdplacement",
         "proto": "_tcp",
         "port": 2020
       },
@@ -30,7 +30,7 @@
   "adminIp": "{{auto.MANTA_IP}}",
 
   "healthCheck": {
-    "command": "test -e /var/tmp/electric-boray-ready",
+    "command": "test -e /var/tmp/buckets-mdplacement-ready",
     "ignoreExitStatus": false,
     "stdoutMatch": {
       "pattern": ""

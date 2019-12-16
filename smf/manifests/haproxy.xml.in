@@ -7,7 +7,7 @@
 -->
 
 <!--
-    Copyright (c) 2019, Joyent, Inc.
+    Copyright 2019 Joyent, Inc.
 -->
 
 <service_bundle type="manifest" name="haproxy">
@@ -39,9 +39,9 @@
 
         <exec_method type="method"
             name="start"
-            exec="/opt/local/sbin/haproxy -f /opt/smartdc/electric-boray/etc/haproxy.cfg -D"
+            exec="/opt/local/sbin/haproxy -f /opt/smartdc/buckets-mdplacement/etc/haproxy.cfg -D"
             timeout_seconds="30">
-            <method_context working_directory="/opt/smartdc/electric-boray">
+            <method_context working_directory="/opt/smartdc/buckets-mdplacement">
                 <method_environment>
                     <envvar name="PATH"
                         value="/opt/local/bin:/usr/bin:/usr/sbin:/bin"/>

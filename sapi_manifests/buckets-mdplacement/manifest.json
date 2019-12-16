@@ -1,0 +1,6 @@
+{
+    "name": "buckets-mdplacement",
+    "path": "/opt/smartdc/buckets-mdplacement/etc/config.json",
+    "post_cmd": "/usr/sbin/svcadm refresh buckets-mdplacement",
+    "master": true
+}

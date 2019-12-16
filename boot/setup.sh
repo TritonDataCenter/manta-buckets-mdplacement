@@ -10,7 +10,7 @@
 #
 
 #
-# Bootstraps the consistent hash ring for electric-boray.
+# Bootstraps the consistent hash ring for buckets-mdplacement.
 #
 
 set -o xtrace
@@ -23,7 +23,7 @@ if [[ -h $SOURCE ]]; then
 fi
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 PROFILE=/root/.bashrc
-SVC_ROOT=/opt/smartdc/electric-boray
+SVC_ROOT=/opt/smartdc/buckets-mdplacement
 
 source ${DIR}/scripts/util.sh
 source ${DIR}/scripts/services.sh
@@ -33,7 +33,7 @@ export PS4='[\D{%FT%TZ}] ${BASH_SOURCE}:${LINENO}: ${FUNCNAME[0]:+${FUNCNAME[0]}
 
 FASH=$SVC_ROOT/node_modules/.bin/fash
 SDC_IMGADM=$SVC_ROOT/node_modules/.bin/sdc-imgadm
-RING_DIR=/electric-boray/data_placement
+RING_DIR=/buckets-mdplacement/data_placement
 SAPI_URL=$(mdata-get SAPI_URL)
 [[ -n $SAPI_URL ]] || fatal "no SAPI_URL found"
 sleep 10 # wait 10 seconds for dns to setup, this is so lame but otherwise will resolve in dns resolution errors.
@@ -74,19 +74,19 @@ export SDC_IMGADM_URL=$(json metadata.HASH_RING_IMGAPI_SERVICE <<< "$manta_app")
 [[ -n $SDC_IMGADM_URL ]] || fatal "no SDC_IMGADM_URL found"
 ZONE_UUID=$(/usr/bin/zonename)
 ZFS_PARENT_DATASET=zones/$ZONE_UUID/data
-ZFS_DATASET=$ZFS_PARENT_DATASET/electric-boray
+ZFS_DATASET=$ZFS_PARENT_DATASET/buckets-mdplacement
 
 
 function manta_setup_determine_instances {
-    ELECTRIC_BORAY_INSTANCES=1
+    BUCKETS_MDPLACEMENT_INSTANCES=1
     local size=`json -f ${METADATA} SIZE`
     if [ "$size" = "lab" ] || [ "$size" = "production" ]
     then
-        ELECTRIC_BORAY_INSTANCES=4
+        BUCKETS_MDPLACEMENT_INSTANCES=4
     fi
 }
 
-function manta_setup_electric_boray_hash_ring {
+function manta_setup_buckets_mdplacement_hash_ring {
     # get the hash ring image
     $SDC_IMGADM get-file $HASH_RING_IMAGE -o $HASH_RING_FILE
     local ring_parent_dir=/var/tmp/$(uuid -v4)
@@ -117,12 +117,12 @@ function manta_setup_electric_boray_hash_ring {
     [[ $? -eq 0 ]] || fatal "unable to setup buckets hash ring"
 }
 
-function manta_setup_electric_boray {
+function manta_setup_buckets_mdplacement {
     #Build the list of ports.  That'll be used for everything else.
     local ports
     local kangs
     local statuses
-    for (( i=1; i<=$ELECTRIC_BORAY_INSTANCES; i++ )); do
+    for (( i=1; i<=$BUCKETS_MDPLACEMENT_INSTANCES; i++ )); do
         ports[$i]=`expr 2020 + $i`
         kangs[$i]=`expr 3020 + $i`
         statuses[$i]=`expr 4020 + $i`
@@ -148,10 +148,10 @@ function manta_setup_electric_boray {
 
     #haproxy
     for port in "${ports[@]}"; do
-        hainstances="$hainstances        server electric-boray-$port 127.0.0.1:$port check inter 10s slowstart 10s error-limit 3 on-error mark-down\n"
+        hainstances="$hainstances        server buckets-mdplacement-$port 127.0.0.1:$port check inter 10s slowstart 10s error-limit 3 on-error mark-down\n"
     done
 
-    sed -e "s#@@ELECTRIC-BORAY_INSTANCES@@#$hainstances#g" \
+    sed -e "s#@@BUCKETS-MDPLACEMENT_INSTANCES@@#$hainstances#g" \
         $SVC_ROOT/etc/haproxy.cfg.in > $SVC_ROOT/etc/haproxy.cfg || \
         fatal "could not process $src to $dest"
 
@@ -159,25 +159,25 @@ function manta_setup_electric_boray {
         fatal "unable to import haproxy"
     svcadm enable "manta/haproxy" || fatal "unable to start haproxy"
 
-    #electric-boray instances
-    local electric_boray_xml_in=$SVC_ROOT/smf/manifests/electric-boray.xml.in
-    for (( i=1; i<=$ELECTRIC_BORAY_INSTANCES; i++ )); do
+    #buckets-mdplacement instances
+    local buckets-mdplacement_xml_in=$SVC_ROOT/smf/manifests/buckets-mdplacement.xml.in
+    for (( i=1; i<=$BUCKETS_MDPLACEMENT_INSTANCES; i++ )); do
         local port=${ports[$i]}
         local kang=${kangs[$i]}
         local status=${statuses[$i]}
-        local electric_boray_instance="electric-boray-$port"
-        local electric_boray_xml_out=$SVC_ROOT/smf/manifests/electric-boray-$port.xml
-        sed -e "s#@@ELECTRIC-BORAY_PORT@@#$port#g" \
+        local buckets_mdplacement_instance="buckets-mdplacement-$port"
+        local buckets_mdplacement_xml_out=$SVC_ROOT/smf/manifests/buckets-mdplacement-$port.xml
+        sed -e "s#@@BUCKETS-MDPLACEMENT_PORT@@#$port#g" \
             -e "s#@@KANG_PORT@@#$kang#g" \
             -e "s#@@STATUS_PORT@@#$status#g" \
-            -e "s#@@ELECTRIC-BORAY_INSTANCE_NAME@@#$electric_boray_instance#g" \
-            $electric_boray_xml_in  > $electric_boray_xml_out || \
-            fatal "could not process $electric_boray_xml_in to $electric_boray_xml_out"
+            -e "s#@@BUCKETS-MDPLACEMENT_INSTANCE_NAME@@#$buckets_mdplacement_instance#g" \
+            $buckets_mdplacement_xml_in  > $buckets_mdplacement_xml_out || \
+            fatal "could not process $buckets_mdplacement_xml_in to $buckets_mdplacement_xml_out"
 
-        svccfg import $electric_boray_xml_out || \
-            fatal "unable to import $electric_boray_instance: $electric_boray_xml_out"
-        svcadm enable "$electric_boray_instance" || \
-            fatal "unable to start $electric_boray_instance"
+        svccfg import $buckets_mdplacement_xml_out || \
+            fatal "unable to import $buckets_mdplacement_instance: $buckets_mdplacement_xml_out"
+        svcadm enable "$buckets_mdplacement_instance" || \
+            fatal "unable to start $buckets_mdplacement_instance"
     done
 
     unset IFS
@@ -189,19 +189,19 @@ echo "Running common setup scripts"
 manta_common_presetup
 
 echo "Adding local manifest directories"
-manta_add_manifest_dir "/opt/smartdc/electric-boray"
+manta_add_manifest_dir "/opt/smartdc/buckets-mdplacement"
 
-manta_common2_setup "electric-boray"
+manta_common2_setup "buckets-mdplacement"
 
 manta_setup_determine_instances
 
 echo "Setting up hash ring"
-manta_setup_electric_boray_hash_ring
+manta_setup_buckets_mdplacement_hash_ring
 
 echo "Setting up e-boray"
-manta_setup_electric_boray
+manta_setup_buckets_mdplacement
 
-manta_common2_setup_log_rotation "electric-boray"
+manta_common2_setup_log_rotation "buckets-mdplacement"
 
 manta_common2_setup_end
 

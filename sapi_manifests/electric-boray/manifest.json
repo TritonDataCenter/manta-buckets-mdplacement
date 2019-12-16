@@ -1,6 +1,0 @@
-{
-    "name": "electric-boray",
-    "path": "/opt/smartdc/electric-boray/etc/config.json",
-    "post_cmd": "/usr/sbin/svcadm refresh electric-boray",
-    "master": true
-}

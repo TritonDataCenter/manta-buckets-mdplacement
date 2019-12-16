@@ -17,9 +17,9 @@ defaults
         timeout queue   0
         timeout connect 500
 
-frontend electric-boray
+frontend buckets-mdplacement
         bind *:2020
         default_backend servers
 
 backend servers
-@@ELECTRIC-BORAY_INSTANCES@@
+@@BUCKETS-MDPLACEMENT_INSTANCES@@

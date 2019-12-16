@@ -7,7 +7,7 @@
 #
 
 #
-# Copyright (c) 2019, Joyent, Inc.
+# Copyright 2019 Joyent, Inc.
 #
 
 set -o xtrace
@@ -20,7 +20,7 @@ if [[ -h $SOURCE ]]; then
 fi
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 PROFILE=/root/.bashrc
-SVC_ROOT=/opt/smartdc/electric-boray
+SVC_ROOT=/opt/smartdc/buckets-mdplacement
 
 source ${DIR}/scripts/util.sh
 source ${DIR}/scripts/services.sh
@@ -30,7 +30,7 @@ export PS4='[\D{%FT%TZ}] ${BASH_SOURCE}:${LINENO}: ${FUNCNAME[0]:+${FUNCNAME[0]}
 
 
 
-ZFS_DATASET=zones/$(/usr/bin/zonename)/data/electric-boray
+ZFS_DATASET=zones/$(/usr/bin/zonename)/data/buckets-mdplacement
 
 # Mainline
 

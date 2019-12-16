@@ -10,8 +10,8 @@
     Copyright 2019 Joyent, Inc.
 -->
 
-<service_bundle type="manifest" name="-electric-boray">
-    <service name="manta/application/electric-boray" type="service" version="1">
+<service_bundle type="manifest" name="-buckets-mdplacement">
+    <service name="smartdc/application/buckets-mdplacement" type="service" version="1">
 
         <dependency name="network"
             grouping="require_all"
@@ -44,13 +44,13 @@
         <exec_method
             type="method"
             name="start"
-            exec="node --abort-on-uncaught-exception main.js -f etc/config.json -r %{electric-boray/ring-location} -p %{electric-boray/port} -k %{electric-boray/kang} -s %{electric-boray/status} &amp;"
+            exec="node --abort-on-uncaught-exception main.js -f etc/config.json -r %{buckets-mdplacement/ring-location} -p %{buckets-mdplacement/port} -k %{buckets-mdplacement/kang} -s %{buckets-mdplacement/status} &amp;"
             timeout_seconds="30">
-            <method_context working_directory="/opt/smartdc/electric-boray">
+            <method_context working_directory="/opt/smartdc/buckets-mdplacement">
                 <method_credential user="root" group="nobody" />
                 <method_environment>
                     <envvar name="PATH"
-                        value="/opt/smartdc/electric-boray/build/node/bin:/opt/local/bin:/usr/bin:/usr/sbin:/bin"/>
+                        value="/opt/smartdc/buckets-mdplacement/build/node/bin:/opt/local/bin:/usr/bin:/usr/sbin:/bin"/>
                     <envvar name="LD_PRELOAD_32"
                         value="/usr/lib/extendedFILE.so.1" />
                 </method_environment>
@@ -65,12 +65,12 @@
 
         <property_group name="application" type="application" />
 
-        <instance name="@@ELECTRIC-BORAY_INSTANCE_NAME@@" enabled="true">
-            <property_group name="electric-boray" type="application">
-                <propval name="port" type="astring" value="@@ELECTRIC-BORAY_PORT@@" />
+        <instance name="@@BUCKETS_MDPLACEMENT_INSTANCE_NAME@@" enabled="true">
+            <property_group name="buckets-mdplacement" type="application">
+                <propval name="port" type="astring" value="@@BUCKETS_MDPLACEMENT_PORT@@" />
                 <propval name="kang" type="astring" value="@@KANG_PORT@@" />
                 <propval name="status" type="astring" value="@@STATUS_PORT@@" />
-                <propval name="ring-location" type="astring" value="/electric-boray/chash/leveldb-@@ELECTRIC-BORAY_PORT@@" />
+                <propval name="ring-location" type="astring" value="/buckets-mdplacement/data_placement/ring.json" />
             </property_group>
         </instance>
 
@@ -78,7 +78,7 @@
 
         <template>
             <common_name>
-                <loctext xml:lang="C">Joyent electric-boray Service</loctext>
+                <loctext xml:lang="C">Joyent manta metadata placement service</loctext>
             </common_name>
         </template>
 

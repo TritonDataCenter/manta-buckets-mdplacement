@@ -12,7 +12,7 @@
 # Makefile: Electric Boray, a system for sharded Boray access
 #
 
-NAME = electric-boray
+NAME = buckets-mdplacement
 
 #
 # Files
@@ -55,7 +55,7 @@ ROOT :=			$(shell pwd)
 RELSTAGEDIR :=		/tmp/$(NAME)-$(STAMP)
 
 BASE_IMAGE_UUID = 04a48d7d-6bb5-4e83-8c3b-e60a99e0f48f
-BUILDIMAGE_NAME = mantav2-electric-boray
+BUILDIMAGE_NAME = mantav2-buckets-mdplacement
 BUILDIMAGE_DESC	= Manta buckets metadata placement API
 BUILDIMAGE_PKGSRC = haproxy-1.6.2
 AGENTS		= amon config registrar
@@ -73,18 +73,12 @@ manta-scripts: deps/manta-scripts/.git
 	mkdir -p $(BUILD)/scripts
 	cp deps/manta-scripts/*.sh $(BUILD)/scripts
 
-.PHONY: test
-test: $(STAMP_NODE_MODULES) $(addprefix run-nodeunit.,$(NODEUNIT_TESTS))
-
-run-nodeunit.%: test/%
-	$(NODE) ./node_modules/.bin/nodeunit --reporter=tap $^
-
 .PHONY: release
 release: all
 	@echo "Building $(RELEASE_TARBALL)"
-	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/electric-boray
+	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement
 	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/boot
-	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/electric-boray/etc
+	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/etc
 	cp -r $(ROOT)/build \
 	    $(ROOT)/bin \
 	    $(ROOT)/boot \
@@ -94,18 +88,18 @@ release: all
 	    $(ROOT)/package.json \
 	    $(ROOT)/sapi_manifests \
 	    $(ROOT)/smf \
-	    $(RELSTAGEDIR)/root/opt/smartdc/electric-boray/
-	mv $(RELSTAGEDIR)/root/opt/smartdc/electric-boray/build/scripts \
-	    $(RELSTAGEDIR)/root/opt/smartdc/electric-boray/boot
-	ln -s /opt/smartdc/electric-boray/boot/configure.sh \
+	    $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/
+	mv $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/build/scripts \
+	    $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/boot
+	ln -s /opt/smartdc/buckets-mdplacement/boot/configure.sh \
 	    $(RELSTAGEDIR)/root/opt/smartdc/boot/configure.sh
 	chmod 755 \
-	    $(RELSTAGEDIR)/root/opt/smartdc/electric-boray/boot/configure.sh
-	ln -s /opt/smartdc/electric-boray/boot/setup.sh \
+	    $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/boot/configure.sh
+	ln -s /opt/smartdc/buckets-mdplacement/boot/setup.sh \
 	    $(RELSTAGEDIR)/root/opt/smartdc/boot/setup.sh
-	chmod 755 $(RELSTAGEDIR)/root/opt/smartdc/electric-boray/boot/setup.sh
+	chmod 755 $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/boot/setup.sh
 	cp $(ROOT)/etc/haproxy.cfg.in \
-	    $(RELSTAGEDIR)/root/opt/smartdc/electric-boray/etc
+	    $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/etc
 	(cd $(RELSTAGEDIR) && $(TAR) -I pigz -cf $(ROOT)/$(RELEASE_TARBALL) root)
 	@rm -rf $(RELSTAGEDIR)
 
@@ -119,7 +113,7 @@ sapi_manifests/registrar/template: sapi_manifests/registrar/template.in
 
 .PHONY: publish
 publish: release
-	mkdir -p $(ENGBLD_BITS_DIR)/electric-boray
+	mkdir -p $(ENGBLD_BITS_DIR)/buckets-mdplacement
 	cp $(ROOT)/$(RELEASE_TARBALL) \
 	    $(ENGBLD_BITS_DIR)/$(NAME)/$(RELEASE_TARBALL)
 
