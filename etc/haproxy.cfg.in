@@ -22,4 +22,4 @@ frontend buckets-mdplacement
         default_backend servers
 
 backend servers
-@@BUCKETS-MDPLACEMENT_INSTANCES@@
+@@BUCKETS_MDPLACEMENT_INSTANCES@@
