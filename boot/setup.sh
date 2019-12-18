@@ -151,7 +151,7 @@ function manta_setup_buckets_mdplacement {
         hainstances="$hainstances        server buckets-mdplacement-$port 127.0.0.1:$port check inter 10s slowstart 10s error-limit 3 on-error mark-down\n"
     done
 
-    sed -e "s#@@BUCKETS-MDPLACEMENT_INSTANCES@@#$hainstances#g" \
+    sed -e "s#@@BUCKETS_MDPLACEMENT_INSTANCES@@#$hainstances#g" \
         $SVC_ROOT/etc/haproxy.cfg.in > $SVC_ROOT/etc/haproxy.cfg || \
         fatal "could not process $src to $dest"
 
@@ -160,17 +160,17 @@ function manta_setup_buckets_mdplacement {
     svcadm enable "manta/haproxy" || fatal "unable to start haproxy"
 
     #buckets-mdplacement instances
-    local buckets-mdplacement_xml_in=$SVC_ROOT/smf/manifests/buckets-mdplacement.xml.in
+    local buckets_mdplacement_xml_in=$SVC_ROOT/smf/manifests/buckets-mdplacement.xml.in
     for (( i=1; i<=$BUCKETS_MDPLACEMENT_INSTANCES; i++ )); do
         local port=${ports[$i]}
         local kang=${kangs[$i]}
         local status=${statuses[$i]}
         local buckets_mdplacement_instance="buckets-mdplacement-$port"
         local buckets_mdplacement_xml_out=$SVC_ROOT/smf/manifests/buckets-mdplacement-$port.xml
-        sed -e "s#@@BUCKETS-MDPLACEMENT_PORT@@#$port#g" \
+        sed -e "s#@@BUCKETS_MDPLACEMENT_PORT@@#$port#g" \
             -e "s#@@KANG_PORT@@#$kang#g" \
             -e "s#@@STATUS_PORT@@#$status#g" \
-            -e "s#@@BUCKETS-MDPLACEMENT_INSTANCE_NAME@@#$buckets_mdplacement_instance#g" \
+            -e "s#@@BUCKETS_MDPLACEMENT_INSTANCE_NAME@@#$buckets_mdplacement_instance#g" \
             $buckets_mdplacement_xml_in  > $buckets_mdplacement_xml_out || \
             fatal "could not process $buckets_mdplacement_xml_in to $buckets_mdplacement_xml_out"
 
