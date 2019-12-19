@@ -10,8 +10,8 @@
     Copyright 2019 Joyent, Inc.
 -->
 
-<service_bundle type="manifest" name="-buckets-mdplacement">
-    <service name="smartdc/application/buckets-mdplacement" type="service" version="1">
+<service_bundle type="manifest" name="buckets-mdplacement">
+    <service name="manta/application/buckets-mdplacement" type="service" version="1">
 
         <dependency name="network"
             grouping="require_all"
