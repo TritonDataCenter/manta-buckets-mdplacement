@@ -168,7 +168,6 @@ function run(options) {
         app.createStatusServer({
             log: LOG.child({ component: 'statusServer' }),
             dataDirector: res.dataDirector,
-            indexShards: opts.ringCfg.indexShards,
             port: opts.statusPort
         }, function (err2) {
             if (err2) {
