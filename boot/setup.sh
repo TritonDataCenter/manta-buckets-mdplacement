@@ -6,7 +6,7 @@
 #
 
 #
-# Copyright 2019 Joyent, Inc.
+# Copyright 2020 Joyent, Inc.
 #
 
 #
@@ -185,7 +185,7 @@ manta_setup_determine_instances
 echo "Setting up hash ring"
 manta_setup_buckets_mdplacement_hash_ring
 
-echo "Setting up e-boray"
+echo "Setting up buckets-mdplacement"
 manta_setup_buckets_mdplacement
 
 manta_common2_setup_log_rotation "buckets-mdplacement"
