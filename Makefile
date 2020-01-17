@@ -5,11 +5,7 @@
 #
 
 #
-# Copyright 2019 Joyent, Inc.
-#
-
-#
-# Makefile: Electric Boray, a system for sharded Boray access
+# Copyright 2020 Joyent, Inc.
 #
 
 NAME = buckets-mdplacement
@@ -17,7 +13,7 @@ NAME = buckets-mdplacement
 #
 # Files
 #
-JS_FILES :=		$(wildcard *.js) $(shell find lib test -name '*.js')
+JS_FILES :=		$(wildcard *.js) $(shell find lib -name '*.js')
 JSL_CONF_NODE =		tools/jsl.node.conf
 JSL_FILES_NODE =	$(JS_FILES)
 JSSTYLE_FILES =		$(JS_FILES)
