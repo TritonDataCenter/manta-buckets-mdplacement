@@ -18,7 +18,6 @@ JSL_CONF_NODE =		tools/jsl.node.conf
 JSL_FILES_NODE =	$(JS_FILES)
 JSSTYLE_FILES =		$(JS_FILES)
 JSSTYLE_FLAGS =		-f tools/jsstyle.conf
-SMF_MANIFESTS_IN =	smf/manifests/haproxy.xml.in
 BOOTSTRAP_MANIFESTS =	sapi_manifests/registrar/template
 
 NODEUNIT_TESTS =	$(notdir $(wildcard test/*.test.js))
@@ -53,7 +52,6 @@ RELSTAGEDIR :=		/tmp/$(NAME)-$(STAMP)
 BASE_IMAGE_UUID = 04a48d7d-6bb5-4e83-8c3b-e60a99e0f48f
 BUILDIMAGE_NAME = mantav2-buckets-mdplacement
 BUILDIMAGE_DESC	= Manta buckets metadata placement API
-BUILDIMAGE_PKGSRC = haproxy-1.6.2
 AGENTS		= amon config registrar
 
 #
@@ -94,8 +92,6 @@ release: all
 	ln -s /opt/smartdc/buckets-mdplacement/boot/setup.sh \
 	    $(RELSTAGEDIR)/root/opt/smartdc/boot/setup.sh
 	chmod 755 $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/boot/setup.sh
-	cp $(ROOT)/etc/haproxy.cfg.in \
-	    $(RELSTAGEDIR)/root/opt/smartdc/buckets-mdplacement/etc
 	(cd $(RELSTAGEDIR) && $(TAR) -I pigz -cf $(ROOT)/$(RELEASE_TARBALL) root)
 	@rm -rf $(RELSTAGEDIR)
 
