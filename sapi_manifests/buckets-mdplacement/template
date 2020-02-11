@@ -2,10 +2,6 @@
     "bunyan": {
         "level": "info"
     },
-    "fast": {
-        "client_crc_mode": 3,
-        "server_crc_mode": 2
-    },
     "audit": false,
     "cache": {
         "size": 5000,
