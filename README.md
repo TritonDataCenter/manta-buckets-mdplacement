@@ -6,13 +6,14 @@
 
 <!--
     Copyright 2019 Joyent, Inc.
+    Copyright 2023 MNX Cloud, Inc.
 -->
 
 # manta-buckets-mdplacement: The Manta buckets metadata placement service
 
 This repository is part of the Joyent Manta buckets project.  For contribution
 guidelines, issues, and general documentation, visit the main
-[Manta](http://github.com/joyent/manta) project page.
+[Manta](http://github.com/TritonDataCenter/manta) project page.
 
 The purpose of this repository is to manage the placement of metadata within the
 Manta metadata storage tier and to provide APIs for components of MANTA to
