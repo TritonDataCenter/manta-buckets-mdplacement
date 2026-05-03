@@ -23,7 +23,7 @@
         "posix-getopt": "^1.0.0",
         "restify": "6.3.1",
         "strsplit": "1.0.0",
-        "uuid": "3.3.3",
+        "uuid": "14.0.0",
         "vasync": "^2.2.0",
         "verror": "1.9.0",
         "xtend": "2.0.6"
